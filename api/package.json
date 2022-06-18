@@ -1,0 +1,37 @@
+{
+  "name": "ClaraAPI",
+  "version": "1.0.0",
+  "description": "Backend for Clara app",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/react-native-app/"
+    ]
+  },
+  "author": "A-Lazarg",
+  "license": "ISC",
+  "engines": {
+    "node": "9.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "moment": "^2.19.3",
+    "moment-timezone": "^0.5.14",
+    "mongoose": "^4.13.5",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "windows-1252": "^1.0.0",
+    "xml-js": "^1.5.2"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "roomName": "Aula A101",
+  "seats": 52,
+  "electricalSockets": false,
+  "slots": {
+    "8:30-23:00": "Libera"
+  }
+}

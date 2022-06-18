@@ -1,0 +1,12 @@
+{
+  "roomName": "Aula A101",
+  "seats": 52,
+  "electricalSockets": false,
+  "slots": {
+    "8:30-12:00": "Libera",
+    "12:00-14:00": "Analisi Matematica 1",
+    "14:00-17:00": "Libera",
+    "17:00-19:00": "Fisica 1",
+    "19:00-23:00": "Libera"
+  }
+}

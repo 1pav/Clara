@@ -1,0 +1,35 @@
+{
+  "rooms": [{
+      "roomName": "Aula A101",
+      "electricalSocket": false
+    },
+    {
+      "roomName": "Aula A102",
+      "electricalSocket": false
+    },
+    {
+      "roomName": "Aula A103",
+      "electricalSocket": false
+    },
+    {
+      "roomName": "Aula A104",
+      "electricalSocket": false
+    },
+    {
+      "roomName": "Aula A105",
+      "electricalSocket": false
+    },
+    {
+      "roomName": "Aula A106",
+      "electricalSocket": false
+    },
+    {
+      "roomName": "Aula A107",
+      "electricalSocket": false
+    },
+    {
+      "roomName": "Aula A108",
+      "electricalSocket": false
+    }
+  ]
+}

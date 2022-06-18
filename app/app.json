@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "sdkVersion": "22.0.0",
+    "orientation": "portrait",
+    "name": "Clara",
+    "version": "0.1",
+    "slug": "a-lazarg",
+    "primaryColor": "#009688",
+    "androidStatusBar": {
+      "backgroundColor": "#FFFFFF",
+      "barStyle": "light-content",
+      "translucent": false
+    },
+    "icon": "images/icon.png",
+    "splash": {
+      "image": "images/splashscreen.png",
+      "resizeMode": "cover"
+    },
+    "android": {
+      "package": "com.alazarg.clara",
+      "config": {
+        "googleSignIn": {
+          "apiKey": "",
+          "certificateHash": "",
+        }
+      }
+    },
+  }
+
+}

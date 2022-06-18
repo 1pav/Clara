@@ -1,0 +1,12 @@
+{
+    "items": [{
+        "roomName": "Aula A101",
+        "score": 4.269319337948236,
+        "availability": {
+            "begin": "8:30",
+            "end": "12:00"
+        },
+        "seats": 52,
+        "electricalSockets": false
+    }]
+}

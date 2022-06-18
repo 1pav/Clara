@@ -1,0 +1,175 @@
+#!/usr/bin/env node
+
+const jsonUtil = require('../utils/jsonUtil.js');
+const mongoose = require('mongoose');
+const moment = require("moment-timezone");
+const request = require('request-promise-native');
+var Department = require('../models/Department.js');
+
+const povoElectricalSockets = {
+  "Aula A101": true,
+  "Aula A102": true,
+  "Aula A103": true,
+  "Aula A104": true,
+  "Aula A105": true,
+  "Aula A106": true,
+  "Aula A107": true,
+  "Aula A108": true,
+  "Aula A203": true,
+  "Aula A204": true,
+  "Aula A205": true,
+  "Aula A206": true,
+  "Aula A207": true,
+  "Aula A208": true,
+  "Aula A209": false,
+  "Aula A210": true,
+  "Aula A211": false,
+  "Aula A212": true,
+  "Aula A213": false,
+  "Aula A214": true,
+  "Aula A215": false,
+  "Aula A218": true,
+  "Aula A219": true,
+  "Aula A220": false,
+  "Aula A221": true,
+  "Aula A222": true,
+  "Aula A223": false,
+  "Aula A224": true,
+  "Aula pc A201": true,
+  "Aula pc A202": true,
+  "Aula pc B106": true,
+  "Aula  B101": false,
+  "Aula  B102": false,
+  "Aula  B103": false,
+  "Aula  B104": false,
+  "Aula  B105": false,
+  "Aula  B107 (SALA CONFERENZE)": false
+}
+
+// Database connection
+mongoose.Promise = global.Promise;
+var options = {
+  useMongoClient: true,
+  user: '',
+  pass: ''
+};
+
+mongoose.connect('', options)
+  .then(() => {
+    console.log('Connected to database.');
+    // Destroy departments collection
+    return Department.remove();
+  })
+  .then(() => {
+    console.log('DB destroyed.');
+    date = moment.tz("Europe/Rome").format("DD-MM-YYYY");
+    deptCode = 'E0503'; // Can be any department
+    return jsonUtil.getJsonByDepartment(deptCode, date);
+  })
+  .then((json) => {
+    console.log('JSON retrieved.');
+    return getDepartmentsList(json);
+  })
+  .then((documents) => {
+    console.log('List of documents created.');
+    return saveDocumentsToDb(documents);
+  })
+  .then(() => {
+    console.log('Structural room informations saved.');
+    return updateDepartmentRooms();
+  })
+  .then((documents) => {
+    console.log('List of documents updated.');
+    return saveDocumentsToDb(documents);
+  })
+  .then(() => {
+    console.log('Events room informations saved.');
+    return mongoose.disconnect();
+  })
+  .then(() => {
+    console.log('Disconnected from database.');
+  })
+  .catch((err) => {
+    console.log('Error intializing DB: ' + err);
+    mongoose.disconnect();
+  });
+
+// Get list of mongoose documents representing departments
+function getDepartmentsList(json) {
+  console.log('Generating list of documents...');
+  var documents = [];
+  var departments = json['area_rooms'];
+  // For each department
+  Object.keys(departments).forEach(function (deptCode) {
+    var newDept = new Department();
+    newDept.deptCode = deptCode;
+    // Add rooms
+    var rooms = departments[deptCode];
+    newDept.rooms = [];
+    Object.keys(rooms).forEach(function (roomCode) {
+      var departmentCode = deptCode;
+      if (departmentCode === "CLA") {
+        departmentCode = "";
+      } else if (departmentCode === "E0801") {
+        departmentCode = "E0404";
+      }
+      if (roomCode.startsWith(departmentCode) && !jsonUtil.deptFilter[departmentCode].includes(rooms[roomCode].room_name)) {
+        var electrSockets = false;
+        // Add department name from room
+        if (newDept.rooms.length == 0) {
+          newDept.deptName = rooms[roomCode].area;
+        }
+        if (departmentCode === 'E0503') {
+          electrSockets = povoElectricalSockets[rooms[roomCode].room_name];
+        }
+        var room = {
+          roomName: rooms[roomCode].room_name,
+          seats: rooms[roomCode].capacity,
+          electricalSockets: electrSockets,
+          slots: {}
+        };
+        for (var i = 0; i <= 30; i++) {
+          room["slots"][i] = null;
+        }
+        newDept.rooms.push(room);
+      }
+    });
+
+    // Add department to list
+    documents.push(newDept);
+  });
+  return documents;
+}
+
+function updateDepartmentRooms() {
+  docList = [];
+  Object.entries(jsonUtil.deptCodes).forEach(([key, department]) => {
+    var date = moment.tz("Europe/Rome").format("DD-MM-YYYY");
+    docList.push(Promise.all([Department.findOne({
+        deptCode: department
+      }), jsonUtil.getJsonByDepartment(department, date)])
+      .then((values) => {
+        var dbJson = values[0];
+        var prettyJson = jsonUtil.prettifyJson(values[1]);
+        var newJson = jsonUtil.joinPrettyDbJson(dbJson, prettyJson);
+
+        return newJson;
+      })
+      .catch((error) => {
+        console.error("Error retrieving document: " + error);
+        Promise.reject("Error retrieving document: " + error);
+      })
+    );
+  });
+  return Promise.all(docList);
+}
+
+// Save departments to DB
+function saveDocumentsToDb(documents) {
+  console.log('Saving documents to DB...');
+  results = [];
+  for (var i = 0; i < documents.length; i++) {
+    results.push(documents[i].save());
+  }
+  return Promise.all(results);
+}

@@ -1,0 +1,41 @@
+{
+  "rooms": [{
+    "roomName": "Aula A101",
+    "electricalSockets": false,
+    "seats": 52,
+    "slots": {
+      "0": "Analisi Matematica 1",
+      "1": "Analisi Matematica 1",
+      "2": "Analisi Matematica 1",
+      "3": "Analisi Matematica 1",
+      "4": "Analisi Matematica 1",
+      "5": "Analisi Matematica 1",
+      "6": "Analisi Matematica 1",
+      "7": "Analisi Matematica 1",
+      "8": "Analisi Matematica 1",
+      "9": "Analisi Matematica 1",
+      "10": "Analisi Matematica 1",
+      "11": "Analisi Matematica 1",
+      "12": "Analisi Matematica 1",
+      "13": "Analisi Matematica 1",
+      "14": "Analisi Matematica 1",
+      "15": "Analisi Matematica 1",
+      "16": "Analisi Matematica 1",
+      "17": "Fisica 1",
+      "18": "Fisica 1",
+      "19": "Fisica 1",
+      "20": "Fisica 1",
+      "21": "Analisi Matematica 1",
+      "22": "Analisi Matematica 1",
+      "23": "Analisi Matematica 1",
+      "24": "Analisi Matematica 1",
+      "25": "Analisi Matematica 1",
+      "26": "Analisi Matematica 1",
+      "27": "Analisi Matematica 1",
+      "28": "Analisi Matematica 1",
+      "29": "Analisi Matematica 1",
+      "30": "Analisi Matematica 1"
+    }
+  }]
+
+}
